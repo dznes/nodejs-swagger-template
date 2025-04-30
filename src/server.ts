@@ -1,33 +1,19 @@
-import { fastify } from 'fastify'
-import { fastifyCors } from '@fastify/cors'
-import { validatorCompiler, serializerCompiler, ZodTypeProvider, jsonSchemaTransform } from 'fastify-type-provider-zod'
-import fastifySwagger from '@fastify/swagger'
-import fastifySwaggerUi from '@fastify/swagger-ui'
-import { routes } from './routes'
+import { app } from "./app"
+import { env } from "./config/env"
+import pool from "@/config/database";
 
-const app = fastify().withTypeProvider<ZodTypeProvider>()
 
-app.setValidatorCompiler(validatorCompiler)
-app.setSerializerCompiler(serializerCompiler)
+app
+  .listen({
+    host: '0.0.0.0',
+    port: env.PORT,
+  })
+  .then(() => {
+    console.log(`HTTP server running on port ${env.PORT}!`)
+  })
 
-app.register(fastifyCors, { origin: '*' })
-
-app.register(fastifySwagger, {
-  openapi: {
-    info: {
-      title: 'Typed API',
-      version: '1.0.0',
-    }
-  },
-  transform: jsonSchemaTransform,
-})
-
-app.register(fastifySwaggerUi, {
-  routePrefix: '/docs',
-})
-
-app.register(routes)
-
-app.listen({ port: 3000 }, () => {
-  console.log('Server is running on http://localhost:3000')
-})
+process.on('SIGINT', async () => {
+  console.log('Closing PG pool...');
+  await pool.end();
+  process.exit(0);
+});

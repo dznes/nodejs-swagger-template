@@ -1,0 +1,31 @@
+# docker compose up -d
+# docker compose stop
+version: '3'
+
+services:
+  node-pg-template:
+    container_name: node-pg-template
+    image: bitnami/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRESQL_DATABASE=node-pg-template
+
+  redis:
+    container_name: redis-node-pg-template
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  redis_data:

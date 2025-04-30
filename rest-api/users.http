@@ -1,0 +1,32 @@
+@host = localhost:3000/api/users
+@token = 
+
+
+### Auth - Register
+POST http://{{host}}
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+### Auth - Login
+# @name login
+POST http://{{host}}/sessions
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+### List Users
+GET http://{{host}}
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+### Delete All Users
+DELETE http://{{host}}/all
+Authorization: Bearer {{login.response.body.token}}
