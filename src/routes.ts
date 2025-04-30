@@ -1,6 +1,6 @@
 import z from 'zod'
-import { FastuftTypedInstance } from "./types/fastify"
-import { randomUUID } from 'crypto'
+import { FastifyInstance } from "fastify"
+// import { randomUUID } from 'crypto'
 import { createUser } from './controllers/users/create-user'
 
 interface User {
@@ -11,7 +11,7 @@ interface User {
 
 const users: User[] = []
 
-export async function routes(app: FastuftTypedInstance): Promise<void> {
+export async function routes(app: FastifyInstance): Promise<void> {
   app.get('/users', {
     schema: {
       tags: ['users'],

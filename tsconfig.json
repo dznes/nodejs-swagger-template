@@ -6,7 +6,7 @@
   "compilerOptions": {
     "lib": ["es2023"],
     "module": "node16",
-    "target": "es2022",
+    "target": "ES2022",
     "outDir": "./build",
     "paths": {
       "@/*": ["./src/*"]

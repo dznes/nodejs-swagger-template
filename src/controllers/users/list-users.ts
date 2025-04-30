@@ -1,3 +1,3 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+// import { FastifyReply, FastifyRequest } from "fastify";
 
-export async function ListUsers(request: FastifyRequest, reply: FastifyReply) {}
+// export async function ListUsers(request: FastifyRequest, reply: FastifyReply) {}
