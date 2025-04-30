@@ -17,14 +17,20 @@ const pool = new Pool({
 });
 
 async function runMigration() {
-  const sqlPath = path.join(__dirname, 'create-user-table.sql');
-  const sql = fs.readFileSync(sqlPath, 'utf-8');
-
   try {
-    await pool.query(sql);
-    console.log('✅ User table created successfully.');
+    // Run users table migration
+    const usersSqlPath = path.join(__dirname, 'create-user-table.sql');
+    const usersSql = fs.readFileSync(usersSqlPath, 'utf-8');
+    await pool.query(usersSql);
+    console.log('✅ Users table created successfully.');
+
+    // Run companies table migration
+    const companiesSqlPath = path.join(__dirname, 'create-companies-table.sql');
+    const companiesSql = fs.readFileSync(companiesSqlPath, 'utf-8');
+    await pool.query(companiesSql);
+    console.log('✅ Companies table created successfully.');
   } catch (err) {
-    console.error('❌ Error creating user table:', err);
+    console.error('❌ Error running migrations:', err);
   } finally {
     await pool.end();
   }

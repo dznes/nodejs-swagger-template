@@ -8,6 +8,7 @@ import fastifySwaggerUi from '@fastify/swagger-ui'
 import { usersRoutes } from './controllers/users/routes'
 import { appRoutes } from './controllers/routes'
 import { env } from './config/env'
+import { companiesRoutes } from './controllers/companies/routes'
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -44,4 +45,4 @@ app.register(fastifyJwt, {
 
 app.register(appRoutes, { prefix: '/api' })
 app.register(usersRoutes, { prefix: '/api/users' })
-
+app.register(companiesRoutes, { prefix: '/api/companies' })
