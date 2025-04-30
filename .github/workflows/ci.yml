@@ -1,12 +1,14 @@
 name: Test Project
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   test:
     runs-on: ubuntu-22.04
-    container:
-      image: node:20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,6 +37,26 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Copy .env.example files
+        shell: bash
+        run: |
+          if [ -f .env.example ]; then
+            cp .env.example .env
+          fi
+          find . -type f -name ".env.example" -exec sh -c 'cp "$1" "${1%.*}"' _ {} \; || true
+
       - name: Install dependencies
         run: pnpm install
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
 
