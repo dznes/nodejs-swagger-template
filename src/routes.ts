@@ -1,6 +1,7 @@
 import z from 'zod'
-import { FastuftTypedInstance } from "./types/fastify"
-import { randomUUID } from 'crypto'
+import { FastifyInstance } from "fastify"
+// import { randomUUID } from 'crypto'
+import { createUser } from './controllers/users/create-user'
 
 interface User {
   id: string
@@ -10,7 +11,7 @@ interface User {
 
 const users: User[] = []
 
-export async function routes(app: FastuftTypedInstance): Promise<void> {
+export async function routes(app: FastifyInstance): Promise<void> {
   app.get('/users', {
     schema: {
       tags: ['users'],
@@ -39,14 +40,5 @@ export async function routes(app: FastuftTypedInstance): Promise<void> {
         201: z.null().describe('User created'),
       }
     }
-  }, async (request, reply) => {
-    const { name, email } = request.body
-    users.push({
-      id: randomUUID(),
-      name, 
-      email 
-
-    })
-    return reply.status(201).send()
-  })
+  }, createUser)
 }
