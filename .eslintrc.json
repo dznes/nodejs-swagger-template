@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "plugin:vitest-globals/recommended"
+  ],
+  "rules": {
+    "no-useless-constructor": "off",
+    "camelcase": "off",
+    "no-new": "off",
+    "@typescript-eslint/no-empty-interface": "off"
+  },
+  "env": {
+    "vitest-globals/env": true
+  }
+}
