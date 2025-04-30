@@ -1,7 +1,13 @@
+
+1. Initiate Project:
+``bash
 pnpm init
+echo -e "save-exact=true" > .npmrc
+echo -e "node_modules\n.env\nbuild\n.env.test" > .gitignore
 pnpm i fastify fastify-type-provider-zod @fastify/cors zod
 pnpm i typescript @types/node tsx -D
 pnpm tsc init
+``
 
 Repositório com as configurações do tsconfig de acordo com sua versão de NodeJS.
 https://github.com/tsconfig/bases
